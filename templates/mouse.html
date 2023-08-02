@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="left-button"></div>
+<div id="right-button"></div>
+<div id="scroll-up"></div>
+<div id="scroll-down"></div>
+
+<script src="{{ url_for('static', filename='sensor.js') }}"></script>
+<script src="{{ url_for('static', filename='socket.js') }}"></script>
+{% endblock %}

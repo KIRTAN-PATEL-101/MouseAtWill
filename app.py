@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, Response
+import random
+import string
 
 app = Flask(__name__)
 
@@ -20,30 +22,29 @@ def ifiphone():
         return True
     else:
         return False
+    
+def pairing_code():
+    ran = "".join(random.choices(string.ascii_uppercase + string.digits,k=10))
+    return ran
 
 @app.route("/", methods=["GET","POST"])
 def index():
-    if request.method == "GET":
-        return render_template('index.html')
-    else:
-        return render_template('room.html')
+    return render_template('index.html')
 
 @app.route('/room', methods=["GET", "POST"])
 def room():
     if request.method == "GET":
-        return render_template('room.html')
+        return render_template('index.html')
     else:
-        if request.form.get('Mobile') == 'Press here on Mobile':
-            if (ifmobile() == False):
-                return render_template('wrong_device.html')
-            else:
-                return render_template('tmp.html')
-        elif request.form.get('PC') == 'Press here on PC':
-            if (ifmobile() == True):
-                return render_template('wrong_device.html')
-            else:
-                return render_template('tmp.html')
-            pass
+        if (ifmobile() == True):
+            passcode = pairing_code()
+            return render_template('mobile.html', passcode = passcode)
+        else:
+            return render_template('pc.html')
+        
+@app.route('/mouse-mobile', methods=['GET', 'POST'])
+def mouse_mobile():
+    return render_template('mouse.html')
 
 
     
